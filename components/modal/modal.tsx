@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import ReactPortal from '@/components/react-portal';
+import ReactPortal from '@/components/modal/react-portal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
