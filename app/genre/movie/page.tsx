@@ -2,13 +2,14 @@ import { Suspense } from 'react';
 import Loading from '@/components/loading';
 import { PageProps, MoviesProps, Movies } from '@/components/movies/movies';
 import { paginationDefaults } from '@/components/pagination/defaults';
+import { filterDefaults } from '@/components/filter/defaults';
 
 export default function GenreMovie(props: PageProps) {
   const page = Number(props.searchParams['page'] ?? paginationDefaults.pageNumber);
   const perPage = Number(props.searchParams['per_page'] ?? paginationDefaults.perPageNumber);
-  const genre = props.searchParams['genre'] ?? paginationDefaults.filter.genre.value;
-  const method = props.searchParams['method'] ?? paginationDefaults.filter.genre.method;
-  const available = Boolean(props.searchParams['available'] ?? paginationDefaults.filter.genre.available);
+  const genre = props.searchParams['genre'] ?? filterDefaults.filter.genre.value;
+  const method = props.searchParams['method'] ?? filterDefaults.filter.genre.method;
+  const available = Boolean(props.searchParams['available'] ?? filterDefaults.filter.genre.available);
   
   // add formatting to genres if array
   let genreStr = () => {
@@ -23,8 +24,8 @@ export default function GenreMovie(props: PageProps) {
       }
       if (i == (genre.length - 2)) {
         let strMethod = (Array.isArray(method)) ? method[0] : method;
-        if (strMethod !== 'and' && strMethod !== 'or') {
-          strMethod = 'and';
+        if (!filterDefaults.availableMethods.genre.includes(strMethod)) {
+          strMethod = filterDefaults.filter.genre.method;
         }
         str += strMethod;
         str += ' ';
