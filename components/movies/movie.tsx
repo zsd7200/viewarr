@@ -127,7 +127,7 @@ export function Movie(props: MovieData) {
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
               />
               <p 
-                className="text-center text-xl pt-[5px]" 
+                className="text-center text-xl pt-[5px] px-[50px]" 
                 title={(props.title !== props.originalTitle) ? props.originalTitle : ''}
               >
                 {props.title}
