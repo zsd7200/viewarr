@@ -39,11 +39,16 @@ export function PaginationControl(props: PaginationControlProps) {
 
   // handle input after clicking ... in pagination
   function handleInput() {
-    let page: number;
+    let page;
     do {
-      page = Number(prompt('Enter page number.', '1'));
+      page = prompt('Enter page number.', '1');
+      if (page === null) break;
+      page = Number(page);
     } while (Number.isNaN(page) || page < 1 || page > props.pageCount)
-    routeNewPage(page);
+
+    if (page !== null) {
+      routeNewPage(page);
+    }
   }
 
   return (
