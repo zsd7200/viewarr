@@ -3,11 +3,35 @@ import Loading from '@/components/loading';
 import { PageProps, MoviesProps, Movies } from '@/components/movies/movies';
 import { paginationDefaults } from '@/components/pagination/defaults';
 
-export default function RequestedMovie(props: PageProps) {
+export default function GenreMovie(props: PageProps) {
   const page = Number(props.searchParams['page'] ?? paginationDefaults.pageNumber);
   const perPage = Number(props.searchParams['per_page'] ?? paginationDefaults.perPageNumber);
   const genre = props.searchParams['genre'] ?? paginationDefaults.filter.genre.value;
   const method = props.searchParams['method'] ?? paginationDefaults.filter.genre.method;
+  
+  // add formatting to genres if array
+  let genreStr = () => {
+    if (!Array.isArray(genre)) return genre;
+    let str = '';
+    let concat = (genre.length == 2) ? ' ' : ', ';
+
+    for (let i = 0; i < genre.length; i++) {
+      str += genre[i];
+      if (i !== (genre.length - 1)) {
+        str += concat;
+      }
+      if (i == (genre.length - 2)) {
+        let strMethod = (Array.isArray(method)) ? method[0] : method;
+        if (strMethod !== 'and' && strMethod !== 'or') {
+          strMethod = 'and';
+        }
+        str += strMethod;
+        str += ' ';
+      }
+    }
+
+    return str;
+  };
 
   const moviesProps: MoviesProps = {
     filter: 'genre',
@@ -23,7 +47,7 @@ export default function RequestedMovie(props: PageProps) {
 
   return (
     <>
-      <h1 className="text-center text-2xl py-[15px] font-semibold">Requested Movies</h1>
+      <h1 className="text-center text-2xl py-[15px] font-semibold">Available {genreStr()} Movies</h1>
       <Suspense fallback={<Loading />}>
         <Movies {...moviesProps} />
       </Suspense>
