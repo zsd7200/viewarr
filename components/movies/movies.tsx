@@ -40,7 +40,7 @@ async function getMovies(filter: string) {
         filtered.sort((a, b) => a.sortTitle.localeCompare(b.sortTitle));
 
         return filtered;
-      case 'released':
+      case 'available':
         // add to filtered array if available
         for (let i = 0; i < allMovies.length; i++) {
           if (allMovies[i].isAvailable) {

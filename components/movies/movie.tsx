@@ -1,10 +1,11 @@
 'use client';
 
-import Modal from '@/components/movies/modal';
+import Modal from '@/components/modal';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
+import YouTube, { YouTubeProps } from 'react-youtube';
 
 type ImageData = {
   coverType: string,
@@ -16,6 +17,18 @@ type CollectionData = {
   tmdbId: number,
 };
 
+type RatingData = {
+  votes: number,
+  value: number,
+  type: string,
+};
+
+type RatingsObject = {
+  imdb: RatingData,
+  tmdb: RatingData,
+  rottenTomatoes: RatingData,
+}
+
 export type MovieData = {
   title: string,
   originalTitle: string,
@@ -24,6 +37,7 @@ export type MovieData = {
   overview: string,
   images: Array<ImageData>,
   year: number,
+  youTubeTrailerId: string,
   studio: string,
   monitored: Boolean,
   isAvailable: Boolean,
@@ -34,18 +48,49 @@ export type MovieData = {
   certification: string,
   genres: Array<string>,
   collection: CollectionData | undefined,
+  ratings: RatingsObject,
   id: number,
 };
 
 export function Movie(props: MovieData) {
   const [showModal, setShowModal] = useState(false);
+  const imgSrc: string = props.images[0]?.remoteUrl ?? '/no_poster.png';
+
   function onClickHandler() {
     setShowModal(true);
   }
   function onCloseHandler() {
     setShowModal(false);
   }
-  const imgSrc: string = props.images[0]?.remoteUrl ?? '/no_poster.png';
+  function aggregateRating(ratings: RatingsObject) {
+    let total: number = 0;
+    let divisor: number = 0;
+
+    if (ratings['imdb'] && ratings['imdb'].value) {
+      total += ratings['imdb'].value;
+      divisor++;
+    }
+    if (ratings['tmdb'] && ratings['tmdb'].value) {
+      total += ratings['tmdb'].value;
+      divisor++;
+    }
+    if (ratings['rottenTomatoes'] && ratings['rottenTomatoes'].value) {
+      total += ratings['rottenTomatoes'].value / 10;
+      divisor++;
+    }
+    total /= divisor;
+    return Math.round(total * 10) / 10;
+  }
+  const onPlayerReady: YouTubeProps['onReady'] = (e) => {
+    e.target.pauseVideo();
+  }
+  const opts: YouTubeProps['opts'] = {
+    height: '390',
+    width: '640',
+    playerVars: {
+      playsinline: 1,
+    }
+  }
 
   return (
     <div className="relative inline-flex flex-col bg-gradient-to-b from-transparent from-0% via-white via-5% to-white to-5% text-black rounded-md transition-shadow shadow-custom-black hover:shadow-custom-white cursor-pointer">
@@ -82,10 +127,16 @@ export function Movie(props: MovieData) {
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
               />
               <p 
-                className="text-center text-xl p-[5px]" 
+                className="text-center text-xl pt-[5px]" 
                 title={(props.title !== props.originalTitle) ? props.originalTitle : ''}
               >
                 {props.title}
+              </p>
+              <p className="text-sm text-slate-500 pb-[5px] mt-[-3px]">
+                {props.genres.map((genre, i) => {
+                  if (i !== (props.genres.length - 1)) return genre + ', ';
+                  return genre;
+                })}
               </p>
               <p className="flex space-evenly">
                 {(props.runtime > 0) &&
@@ -121,8 +172,40 @@ export function Movie(props: MovieData) {
                   }
                 </p>
               }
+
+              {(props.ratings !== undefined) &&
+                <div className="pt-[7px] text-center">
+                  <p>
+                    {(props.ratings.imdb) && 
+                      <span className="hover:cursor-help" title="IMDB user score.">{props.ratings.imdb.value}</span>
+                    }
+                    {(props.ratings.imdb && (props.ratings.tmdb || props.ratings.rottenTomatoes)) &&
+                      <span className="px-[3px]">|</span>
+                    }
+                    {(props.ratings.tmdb && props.ratings.tmdb.value !== 0) && 
+                      <span className="hover:cursor-help" title="TMDB user score.">{props.ratings.tmdb.value}</span>
+                    }
+                    {(props.ratings.tmdb && props.ratings.rottenTomatoes) &&
+                      <span className="px-[3px]">|</span>
+                    }
+                    {(props.ratings.rottenTomatoes) && 
+                      <span className="hover:cursor-help" title="RottenTomatoes user score.">{props.ratings.rottenTomatoes.value}</span>
+                    }
+                  </p>
+                  {(props.ratings.imdb && props.ratings.tmdb && props.ratings.rottenTomatoes) &&
+                    <p className="hover:cursor-help" title="Aggregate rating (out of 10) of the above scores.">
+                      {aggregateRating(props.ratings)}
+                    </p>
+                  }
+                </div>
+              }
             </div>
-            <div className="flex w-4/6 h-full pr-[30px] text-xl items-center">
+            <div className="flex flex-col gap-[50px] w-4/6 h-full pr-[30px] text-lg items-center justify-center">
+              {props.youTubeTrailerId &&
+                <YouTube
+                  videoId={props.youTubeTrailerId}
+                />
+              }
               {(props.overview.length > 0)
                 ? <p>{props.overview}</p>
                 : <p>No overview available.</p>
