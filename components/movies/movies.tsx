@@ -10,6 +10,7 @@ export type PageProps = {
 type FilterData = {
   value: Array<string> | string,
   method: Array<string> | string,
+  available: boolean,
 };
 
 export type MoviesProps = {
@@ -52,8 +53,9 @@ let filterMovies = (movies: Array<MovieData>, filter: string, filterData: Filter
   }
 
   // add to filtered array if available
-  let getGenre = (genres: string | Array<string>, method: string) => {
+  let getGenre = (genres: string | Array<string>, method: string, available: boolean) => {
     let filtered: Array<MovieData> = [];
+    movies = (available) ? getAvailable() : movies;
 
     if (Array.isArray(genres)) {
       // multiple genres based on method
@@ -99,8 +101,8 @@ let filterMovies = (movies: Array<MovieData>, filter: string, filterData: Filter
       return getAvailable();
     case 'genre':
       if (filterData && filterData.value && filterData.method) {
-        if (Array.isArray(filterData.method)) return getGenre(filterData.value, filterData.method[0]);
-        return getGenre(filterData.value, filterData.method);
+        if (Array.isArray(filterData.method)) return getGenre(filterData.value, filterData.method[0], filterData.available);
+        return getGenre(filterData.value, filterData.method, filterData.available);
       }
       return getAvailable();
     case 'all':

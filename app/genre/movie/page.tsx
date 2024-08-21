@@ -8,6 +8,7 @@ export default function GenreMovie(props: PageProps) {
   const perPage = Number(props.searchParams['per_page'] ?? paginationDefaults.perPageNumber);
   const genre = props.searchParams['genre'] ?? paginationDefaults.filter.genre.value;
   const method = props.searchParams['method'] ?? paginationDefaults.filter.genre.method;
+  const available = Boolean(props.searchParams['available'] ?? paginationDefaults.filter.genre.available);
   
   // add formatting to genres if array
   let genreStr = () => {
@@ -39,6 +40,7 @@ export default function GenreMovie(props: PageProps) {
       genres: {
         value: genre,
         method: method,
+        available: available,
       },
     },
     page: page,

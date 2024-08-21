@@ -5,6 +5,7 @@ export const paginationDefaults = {
     genre: {
       value: 'Comedy',
       method: 'and',
+      available: true,
     },
   },
 };
