@@ -22,7 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      
       <body className={inter.className}>
         <a href="/" className="absolute top-[5px] left-[10px] text-white hover:text-gray-300 transition"><FontAwesomeIcon icon={faHouseChimney} /></a>
         <main>
