@@ -1,7 +1,6 @@
 import { MovieData, Movie } from '@/components/movies/movie';
 import { PaginationControlProps, PaginationControl }from '@/components/pagination/control';
 import { FilterData, filterMovies } from '../filter/movie/filter';
-import { FilterControl } from '../filter/movie/control';
 
 export type PageProps = {
   searchParams: {
@@ -43,7 +42,6 @@ export async function Movies(props: MoviesProps) {
   if (movies.length == 0) {
     return (
       <>
-        <FilterControl />
         <div className="flex flex-col mt-[200px] items-center justify-center">
           <p>No data retrieved.</p>
           <p>This is caused by an error reaching the Radarr API, or your filters are too specific.</p>
@@ -64,7 +62,6 @@ export async function Movies(props: MoviesProps) {
 
   return (
     <>
-      <FilterControl />
       <ul className="flex flex-wrap gap-6 justify-center">
         {paginatedMovies.map(mov => (
           <li className="inline-flex w-1/12" key={`${mov.cleanTitle}`}>

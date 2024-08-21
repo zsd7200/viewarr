@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import Loading from '@/components/loading';
 import { PageProps, MoviesProps, Movies } from '@/components/movies/movies';
 import { paginationDefaults } from '@/components/pagination/defaults';
+import { FilterControl } from '@/components/filter/movie/control';
 
 export default function AvailableMovie(props: PageProps) {
   const page = Number(props.searchParams['page'] ?? paginationDefaults.pageNumber);
@@ -15,6 +16,7 @@ export default function AvailableMovie(props: PageProps) {
 
   return (
     <>
+      <FilterControl />
       <h1 className="text-center text-2xl py-[15px] font-semibold">Available Movies</h1>
       <Suspense fallback={<Loading />}>
         <Movies {...moviesProps} />
