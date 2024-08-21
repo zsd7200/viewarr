@@ -43,7 +43,7 @@ export default function Modal({children, isOpen, handleClose}: ModalProps) {
         <div className="fixed z-[110] rounded flex flex-col box-border min-w-fit overflow-hidden p-5 bg-zinc-800 inset-y-32 inset-x-32">
           <button
             onClick={handleClose}
-            className="self-end flex items-center justify-center text-xl w-[30px] h-[30px] hover:bg-rose-800 border-2 rounded-full transition"
+            className="self-end flex items-center justify-center text-xl min-w-[30px] w-[30px] min-h-[30px] h-[30px] hover:bg-rose-800 border-2 rounded-full transition"
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>

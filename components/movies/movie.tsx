@@ -134,8 +134,14 @@ export function Movie(props: MovieData) {
               </p>
               <p className="text-sm text-slate-500 pb-[5px] mt-[-3px]">
                 {props.genres.map((genre, i) => {
-                  if (i !== (props.genres.length - 1)) return genre + ', ';
-                  return genre;
+                  if (i !== (props.genres.length - 1)) {
+                    return (
+                      <a href={`/genre/movie?genre=${genre}`}>{genre}, </a>
+                    );
+                  }
+                  return (
+                    <a href={`/genre/movie?genre=${genre}`}>{genre}</a>
+                  );
                 })}
               </p>
               <p className="flex space-evenly">
