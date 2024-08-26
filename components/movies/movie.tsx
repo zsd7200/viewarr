@@ -118,15 +118,17 @@ export function Movie(props: MovieData) {
         >
           <div className="flex flex-col md:flex-row h-full w-full md:gap-[20px]">
             <div className="flex flex-row md:flex-col items-center justify-center w-full md:w-2/6 h-full">
-              <Image 
-                src={imgSrc} 
-                alt="Poster" 
-                width={300}
-                height={450}
-                className="w-1/2 h-auto md:w-auto px-[20px] md:px-0"
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
-              />
+              <div className="w-1/2 px-[20px] md:px-0">
+                <Image 
+                  src={imgSrc} 
+                  alt="Poster" 
+                  width={300}
+                  height={450}
+                  className="w-full h-auto md:w-auto"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
+                />
+              </div>
               <div className="flex flex-col text-center items-center">
                 <p 
                   className="text-center text-lg md:text-xl pt-[5px] px-[10px] md:px-[50px]" 
