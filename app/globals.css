@@ -16,7 +16,8 @@
   }
 }
 
-html {
+html { height: 100%; }
+body {
   height: 100%;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -25,7 +26,10 @@ html {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+
 
 @layer utilities {
   .text-balance {

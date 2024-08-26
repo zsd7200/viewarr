@@ -93,19 +93,19 @@ export function Movie(props: MovieData) {
   }
 
   return (
-    <div className="relative inline-flex flex-col bg-gradient-to-b from-transparent from-0% via-white via-5% to-white to-5% text-black rounded-md transition-shadow shadow-custom-black hover:shadow-custom-white cursor-pointer">
+    <div className="relative w-full inline-flex flex-col items-center text-black rounded-md transition-shadow shadow-custom-black hover:shadow-custom-white cursor-pointer">
       <button className="absolute top-0 left-0 w-full h-full z-50 opacity-0" onClick={onClickHandler}></button>
       <Image 
         src={imgSrc}
         alt="Poster" 
         width={160}
         height={240}
-        className="rounded-t-md"
+        className="rounded-t-md w-max bg-white"
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
       />
       <p 
-        className="text-center text-sm my-auto p-[5px]" 
+        className="bg-white h-full w-full rounded-b-md inline-flex justify-center items-center text-center text-sm my-auto p-[5px]" 
         title={(props.title !== props.originalTitle) ? props.originalTitle : ''}
       >
         {props.title}
@@ -116,7 +116,7 @@ export function Movie(props: MovieData) {
           isOpen={showModal}
           handleClose={onCloseHandler}
         >
-          <div className="flex h-full w-full">
+          <div className="flex flex-col md:flex-row h-full w-full gap-[20px]">
             <div className="flex flex-col items-center justify-center w-2/6 h-full">
               <Image 
                 src={imgSrc} 
