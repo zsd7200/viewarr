@@ -62,9 +62,9 @@ export async function Movies(props: MoviesProps) {
 
   return (
     <>
-      <ul className="flex flex-wrap justify-center md:gap-6">
+      <ul className="flex flex-wrap justify-center lg:gap-6">
         {paginatedMovies.map(mov => (
-          <li className="inline-flex w-1/4 md:w-1/6 xl:w-1/12 mx-2.5 md:mx-0 my-2.5" key={`${mov.cleanTitle}`}>
+          <li className="inline-flex w-1/4 md:w-1/6 xl:w-1/12 mx-2.5 lg:mx-0 my-2.5" key={`${mov.cleanTitle}`}>
             <Movie {...mov} />
           </li>
         ))}

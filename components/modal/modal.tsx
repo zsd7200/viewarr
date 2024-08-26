@@ -40,7 +40,7 @@ export default function Modal({children, isOpen, handleClose}: ModalProps) {
     <ReactPortal wrapperId="modal-wrapper">
       <>
         <div onClick={handleClose} className="fixed z-[100] top-0 left-0 w-screen h-screen bg-neutral-800 opacity-50" />
-        <div className="fixed z-[110] rounded flex flex-col box-border min-w-fit overflow-hidden p-5 bg-zinc-800 inset-y-20 inset-x-16 md:inset-x-32">
+        <div className="fixed z-[110] rounded flex flex-col box-border min-w-fit overflow-hidden p-5 bg-zinc-800 inset-y-20 inset-x-4 sm:inset-x-16 lg:inset-x-32">
           <button
             onClick={handleClose}
             className="self-end flex items-center justify-center text-xl min-w-[30px] w-[30px] min-h-[30px] h-[30px] hover:bg-rose-800 border-2 rounded-full transition"

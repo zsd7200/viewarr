@@ -100,7 +100,7 @@ export function Movie(props: MovieData) {
         alt="Poster" 
         width={160}
         height={240}
-        className="rounded-t-md w-max bg-white"
+        className="rounded-t-md w-max"
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
       />
@@ -116,100 +116,104 @@ export function Movie(props: MovieData) {
           isOpen={showModal}
           handleClose={onCloseHandler}
         >
-          <div className="flex flex-col md:flex-row h-full w-full gap-[20px]">
-            <div className="flex flex-col items-center justify-center w-2/6 h-full">
+          <div className="flex flex-col md:flex-row h-full w-full md:gap-[20px]">
+            <div className="flex flex-row md:flex-col items-center justify-center w-full md:w-2/6 h-full">
               <Image 
                 src={imgSrc} 
                 alt="Poster" 
                 width={300}
                 height={450}
+                className="w-1/2 h-auto md:w-auto px-[20px] md:px-0"
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mOcWw8AAb8BHjgUU1kAAAAASUVORK5CYII="
               />
-              <p 
-                className="text-center text-xl pt-[5px] px-[50px]" 
-                title={(props.title !== props.originalTitle) ? props.originalTitle : ''}
-              >
-                {props.title}
-              </p>
-              <p className="text-sm text-slate-500 pb-[5px] mt-[-3px]">
-                {props.genres.map((genre, i) => {
-                  if (i !== (props.genres.length - 1)) {
+              <div className="flex flex-col text-center items-center">
+                <p 
+                  className="text-center text-lg md:text-xl pt-[5px] px-[10px] md:px-[50px]" 
+                  title={(props.title !== props.originalTitle) ? props.originalTitle : ''}
+                >
+                  {props.title}
+                </p>
+                <p className="text-xs md:text-sm text-slate-500 pb-[5px] mt-[-3px]">
+                  {props.genres.map((genre, i) => {
+                    if (i !== (props.genres.length - 1)) {
+                      return (
+                        <a href={`/genre/movie?genre=${genre}`}>{genre}, </a>
+                      );
+                    }
                     return (
-                      <a href={`/genre/movie?genre=${genre}`}>{genre}, </a>
+                      <a href={`/genre/movie?genre=${genre}`}>{genre}</a>
                     );
+                  })}
+                </p>
+                <p className="flex space-evenly text-sm md:text-md">
+                  {(props.runtime > 0) &&
+                    <span>{`${props.runtime}`} minutes</span>
                   }
-                  return (
-                    <a href={`/genre/movie?genre=${genre}`}>{genre}</a>
-                  );
-                })}
-              </p>
-              <p className="flex space-evenly">
-                {(props.runtime > 0) &&
-                  <span>{`${props.runtime}`} minutes</span>
-                }
-                {(props.runtime > 0 && props.certification) &&
-                  <span className="px-[3px]">|</span>
-                }
-                {props.certification && 
-                  <span>{props.certification}</span>
-                }
-              </p>
-              <p>
-                {(props.imdbId) &&
-                  <a href={`https://www.imdb.com/title/${props.imdbId}`}>IMDB <FontAwesomeIcon className="text-xs" icon={faArrowUpRightFromSquare} /></a>
-                }
-                {(props.imdbId && props.tmdbId) &&
-                  <span className="px-[3px]">|</span>
-                }
-                {props.tmdbId && 
-                  <a href={`https://www.themoviedb.org/movie/${props.tmdbId}`}>TMDB <FontAwesomeIcon className="text-xs" icon={faArrowUpRightFromSquare} /></a>
-                }
-              </p>
-
-              {(props.collection !== undefined) &&
-                <p className="text-xs pt-[5px]">
-                  {(props.collection.title) &&
-                    <span>Part of the </span>
+                  {(props.runtime > 0 && props.certification) &&
+                    <span className="px-[3px]">|</span>
                   }
-                  {(props.collection.tmdbId)
-                    ? <a href={`https://www.themoviedb.org/collection/${props.collection.tmdbId}`}>{props.collection.title} <FontAwesomeIcon icon={faArrowUpRightFromSquare} /></a>
-                    : <span>{props.collection.title}</span>
+                  {props.certification && 
+                    <span>{props.certification}</span>
                   }
                 </p>
-              }
+                <p className="text-sm md:text-md">
+                  {(props.imdbId) &&
+                    <a href={`https://www.imdb.com/title/${props.imdbId}`}>IMDB <FontAwesomeIcon className="text-xs" icon={faArrowUpRightFromSquare} /></a>
+                  }
+                  {(props.imdbId && props.tmdbId) &&
+                    <span className="px-[3px]">|</span>
+                  }
+                  {props.tmdbId && 
+                    <a href={`https://www.themoviedb.org/movie/${props.tmdbId}`}>TMDB <FontAwesomeIcon className="text-xs" icon={faArrowUpRightFromSquare} /></a>
+                  }
+                </p>
 
-              {(props.ratings !== undefined) &&
-                <div className="pt-[7px] text-center">
-                  <p>
-                    {(props.ratings.imdb) && 
-                      <span className="hover:cursor-help" title="IMDB user score.">{props.ratings.imdb.value}</span>
+                {(props.collection !== undefined) &&
+                  <p className="text-xs pt-[5px]">
+                    {(props.collection.title) &&
+                      <span>Part of the </span>
                     }
-                    {(props.ratings.imdb && (props.ratings.tmdb || props.ratings.rottenTomatoes)) &&
-                      <span className="px-[3px]">|</span>
-                    }
-                    {(props.ratings.tmdb && props.ratings.tmdb.value !== 0) && 
-                      <span className="hover:cursor-help" title="TMDB user score.">{props.ratings.tmdb.value}</span>
-                    }
-                    {(props.ratings.tmdb && props.ratings.rottenTomatoes) &&
-                      <span className="px-[3px]">|</span>
-                    }
-                    {(props.ratings.rottenTomatoes) && 
-                      <span className="hover:cursor-help" title="RottenTomatoes user score.">{props.ratings.rottenTomatoes.value}</span>
+                    {(props.collection.tmdbId)
+                      ? <a href={`https://www.themoviedb.org/collection/${props.collection.tmdbId}`}>{props.collection.title} <FontAwesomeIcon icon={faArrowUpRightFromSquare} /></a>
+                      : <span>{props.collection.title}</span>
                     }
                   </p>
-                  {(props.ratings.imdb && props.ratings.tmdb && props.ratings.rottenTomatoes) &&
-                    <p className="hover:cursor-help" title="Aggregate rating (out of 10) of the above scores.">
-                      {aggregateRating(props.ratings)}
+                }
+
+                {(props.ratings !== undefined) &&
+                  <div className="pt-[7px] text-center text-sm md:text-md">
+                    <p>
+                      {(props.ratings.imdb) && 
+                        <span className="hover:cursor-help" title="IMDB user score.">{props.ratings.imdb.value}</span>
+                      }
+                      {(props.ratings.imdb && (props.ratings.tmdb || props.ratings.rottenTomatoes)) &&
+                        <span className="px-[3px]">|</span>
+                      }
+                      {(props.ratings.tmdb && props.ratings.tmdb.value !== 0) && 
+                        <span className="hover:cursor-help" title="TMDB user score.">{props.ratings.tmdb.value}</span>
+                      }
+                      {(props.ratings.tmdb && props.ratings.rottenTomatoes) &&
+                        <span className="px-[3px]">|</span>
+                      }
+                      {(props.ratings.rottenTomatoes) && 
+                        <span className="hover:cursor-help" title="RottenTomatoes user score.">{props.ratings.rottenTomatoes.value}</span>
+                      }
                     </p>
-                  }
-                </div>
-              }
+                    {(props.ratings.imdb && props.ratings.tmdb && props.ratings.rottenTomatoes) &&
+                      <p className="hover:cursor-help" title="Aggregate rating (out of 10) of the above scores.">
+                        {aggregateRating(props.ratings)}
+                      </p>
+                    }
+                  </div>
+                }
+              </div>
             </div>
-            <div className="flex flex-col gap-[50px] w-4/6 h-full pr-[30px] text-lg items-center justify-center">
+            <div className="flex flex-col gap-[15px] md:gap-[50px] w-full md:w-4/6 h-full md:pr-[30px] text-sm md:text-lg items-center justify-center">
               {props.youTubeTrailerId &&
                 <YouTube
                   videoId={props.youTubeTrailerId}
+                  iframeClassName="w-[300px] h-[169px] md:w-auto md:h-auto lg:w-[400px] lg:h-[225px] xl:w-[650px] xl:h-[366px]"
                 />
               }
               {(props.overview.length > 0)
