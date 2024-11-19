@@ -11,24 +11,25 @@ export type PageProps = {
 };
 
 export type MoviesProps = {
-  filter: string,
+  filter?: string,
   filterData?: {
     genres?: FilterData,
   },
   page: number,
   perPage: number,
+  movies?: Array<MovieData>,
 };
 
 export async function Movies(props: MoviesProps) {
-  const movies: Array<MovieData> = await getMovies(props.filter, props.filterData?.genres);
+  const movies: Array<MovieData> = props.movies ?? await getMovies(props.filter, props.filterData?.genres);
 
   if (movies.length == 0) {
     return (
       <>
         <div className="flex flex-col mt-[200px] items-center justify-center">
           <p>No data retrieved.</p>
-          <p>This is caused by an error reaching the Radarr API, or your filters are too specific.</p>
-          <p className="mt-[40px]">Please try again with less filters.</p>
+          <p>This is caused by an error reaching the Radarr API, or your filters/search terms are too specific.</p>
+          <p className="mt-[40px]">Please try again with less filters or a different search term.</p>
         </div>
       </>
     );

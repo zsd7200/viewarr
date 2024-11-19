@@ -11,24 +11,25 @@ export type PageProps = {
 };
 
 export type SeriesProps = {
-  filter: string,
+  filter?: string,
   filterData?: {
     genres?: FilterData,
   },
   page: number,
   perPage: number,
+  series?: Array<SeriesData>,
 };
 
 export async function MultipleSeries(props: SeriesProps) {
-  const series: Array<SeriesData> = await getSeries(props.filter, props.filterData?.genres);
+  const series: Array<SeriesData> = props.series ?? await getSeries(props.filter, props.filterData?.genres);
 
   if (series.length == 0) {
     return (
       <>
         <div className="flex flex-col mt-[200px] items-center justify-center">
           <p>No data retrieved.</p>
-          <p>This is caused by an error reaching the Radarr API, or your filters are too specific.</p>
-          <p className="mt-[40px]">Please try again with less filters.</p>
+          <p>This is caused by an error reaching the Sonarr API, or your filters/search terms are too specific.</p>
+          <p className="mt-[40px]">Please try again with less filters or a different search term.</p>
         </div>
       </>
     );

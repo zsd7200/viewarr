@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { paginationDefaults } from '@/components/pagination/defaults';
@@ -16,8 +16,9 @@ export function PaginationControl(props: PaginationControlProps) {
   const defaultPage = props.defaultPage ?? paginationDefaults.pageNumber;
   const defaultPerPage = props.defaultPerPage ?? paginationDefaults.perPageNumber;
   const maxPages = (props.maxPages && props.maxPages >= 5) ? props.maxPages : 5; // works best at 5
-  const router = useRouter();
+  const { replace } = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const page = Number(searchParams.get('page') ?? defaultPage);
   const perPage = Number(searchParams.get('per_page') ?? defaultPerPage);
   const pageArr = [...Array(props.pageCount)];
@@ -26,11 +27,16 @@ export function PaginationControl(props: PaginationControlProps) {
 
   // use router to push new params
   function routeNewPage(newPageNumber: number) {
-    router.push(
-      (perPage == defaultPerPage)
-        ? `?page=${newPageNumber}`
-        : `?page=${newPageNumber}&per_page=${perPage}`
-    );
+    const params = new URLSearchParams(searchParams);
+    params.set('page', `${newPageNumber}`);
+
+    if (perPage !== defaultPerPage) {
+      params.set('per_page', `${perPage}`);
+    } else {
+      params.delete('per_page');
+    }
+
+    replace(`${pathname}?${params.toString()}`);
   }
 
   // route to different pages if page is crazy high through user input on url

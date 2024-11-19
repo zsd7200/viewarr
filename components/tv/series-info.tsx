@@ -36,6 +36,7 @@ export type SeriesData = {
   genres: Array<string>,
   statistics: StatisticsData,
   id: number,
+  relevance?: number,
 };
 
 export function SeriesInfo(props: SeriesData) {

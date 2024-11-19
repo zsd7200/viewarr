@@ -48,6 +48,7 @@ export type MovieData = {
   collection: CollectionData | undefined,
   ratings: RatingsObject,
   id: number,
+  relevance?: number,
 };
 
 export function MovieInfo(props: MovieData) {
