@@ -8,7 +8,11 @@ import { filterDefaults } from '@/components/filter/defaults';
 import { genres } from '@/components/filter/genres';
 import Modal from '@/components/modal/modal';
 
-export function FilterControl() {
+export type FilterControlProps = {
+  mode: string,
+}
+
+export function FilterControl(props: FilterControlProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +25,18 @@ export function FilterControl() {
   function filterClickHandler() {
     const genreList = Array.from(document.querySelectorAll('#genre-list input:checked'));
     const methodList = Array.from(document.querySelectorAll('#method-list input:checked'));
-    let str = '/genre/movie?';
+    let str = '';
+
+    switch (props.mode) {
+      case 'tv':
+        str = '/genre/tv?'
+        break;
+      case 'movie':
+      default:
+        str = '/genre/movie?'
+        break;
+    }
+
     str += 'method=' + (methodList[0]?.getAttribute('id')?.split('radio-')[1] ?? filterDefaults.filter.genre.method) + '&';
 
     for (let i = 0; i < genreList.length; i++) {
@@ -32,7 +47,15 @@ export function FilterControl() {
     router.push(str);
   }
   function clearFilterClickHandler() {
-    router.push('/available/movie');
+    switch (props.mode) {
+      case 'tv':
+        router.push('/available/movie');
+        break;
+      case 'movie':
+      default:
+        router.push('/available/movie');
+        break;
+    }
   }
 
   return (

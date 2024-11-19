@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
 import Loading from '@/components/loading';
-import { PageProps, MoviesProps, Movies } from '@/components/movies/movies';
+import { PageProps, SeriesProps, MultipleSeries } from '@/components/tv/multiple-series';
 import { paginationDefaults } from '@/components/pagination/defaults';
 import { randomGenre, filterDefaults } from '@/components/filter/defaults';
 import { FilterControlProps, FilterControl } from '@/components/filter/control';
 
-export default function GenreMovie(props: PageProps) {
+export default function GenreSeries(props: PageProps) {
   const page = Number(props.searchParams['page'] ?? paginationDefaults.pageNumber);
   const perPage = Number(props.searchParams['per_page'] ?? paginationDefaults.perPageNumber);
   const genre = props.searchParams['genre'] ?? randomGenre();
@@ -40,7 +40,7 @@ export default function GenreMovie(props: PageProps) {
     mode: 'movie',
   }
 
-  const moviesProps: MoviesProps = {
+  const seriesProps: SeriesProps = {
     filter: 'genre',
     filterData: {
       genres: {
@@ -56,9 +56,9 @@ export default function GenreMovie(props: PageProps) {
   return (
     <>
       <FilterControl {...filterControlProps} />
-      <h1 className="text-center text-2xl py-[15px] font-semibold">Available {genreStr()} Movies</h1>
+      <h1 className="text-center text-2xl py-[15px] font-semibold">Available {genreStr()} Shows</h1>
       <Suspense fallback={<Loading />}>
-        <Movies {...moviesProps} />
+        <MultipleSeries {...seriesProps} />
       </Suspense>
     </>
   );

@@ -51,7 +51,13 @@ export type MovieData = {
 };
 
 export function MovieInfo(props: MovieData) {
-  const imgSrc: string = props.images[0]?.remoteUrl ?? '/no_poster.png';
+  let imgSrc = '/no_poster.png';
+  for (let i = 0; i < props.images.length; i++) {
+    if (props.images[i].coverType == 'poster') {
+      imgSrc = props.images[i].remoteUrl;
+      break;
+    }
+  }
 
   function aggregateRating(ratings: RatingsObject) {
     let total: number = 0;
