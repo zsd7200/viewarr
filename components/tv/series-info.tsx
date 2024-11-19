@@ -72,11 +72,11 @@ export function SeriesInfo(props: SeriesData) {
             {props.genres.map((genre, i) => {
               if (i !== (props.genres.length - 1)) {
                 return (
-                  <a href={`/genre/movie?genre=${genre}`} key={genre.toLowerCase()}>{genre}, </a>
+                  <a href={`/genre/tv?genre=${genre}`} key={genre.toLowerCase()}>{genre}, </a>
                 );
               }
               return (
-                <a href={`/genre/movie?genre=${genre}`} key={genre.toLowerCase()}>{genre}</a>
+                <a href={`/genre/tv?genre=${genre}`} key={genre.toLowerCase()}>{genre}</a>
               );
             })}
           </p>
@@ -99,7 +99,7 @@ export function SeriesInfo(props: SeriesData) {
               <span className="px-[3px]">|</span>
             }
             {props.tmdbId && 
-              <a href={`https://www.themoviedb.org/movie/${props.tmdbId}`}>TMDB <FontAwesomeIcon className="text-xs" icon={faArrowUpRightFromSquare} /></a>
+              <a href={`https://www.themoviedb.org/tv/${props.tmdbId}`}>TMDB <FontAwesomeIcon className="text-xs" icon={faArrowUpRightFromSquare} /></a>
             }
           </p>
         </div>
