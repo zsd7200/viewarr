@@ -2,13 +2,13 @@ import { Suspense } from 'react';
 import Loading from '@/components/loading';
 import { PageProps, MoviesProps, Movies } from '@/components/movies/movies';
 import { paginationDefaults } from '@/components/pagination/defaults';
-import { filterDefaults } from '@/components/filter/defaults';
+import { randomGenre, filterDefaults } from '@/components/filter/defaults';
 import { FilterControl } from '@/components/filter/movie/control';
 
 export default function GenreMovie(props: PageProps) {
   const page = Number(props.searchParams['page'] ?? paginationDefaults.pageNumber);
   const perPage = Number(props.searchParams['per_page'] ?? paginationDefaults.perPageNumber);
-  const genre = props.searchParams['genre'] ?? filterDefaults.filter.genre.value;
+  const genre = props.searchParams['genre'] ?? randomGenre();
   const method = props.searchParams['method'] ?? filterDefaults.filter.genre.method;
   const available = Boolean(props.searchParams['available'] ?? filterDefaults.filter.genre.available);
   

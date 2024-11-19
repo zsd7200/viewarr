@@ -1,6 +1,8 @@
-import { MovieData, Movie } from '@/components/movies/movie';
-import { PaginationControlProps, PaginationControl }from '@/components/pagination/control';
-import { FilterData, filterMovies } from '../filter/movie/filter';
+import { getMovies } from '@/components/movies/get-movies';
+import { MovieData } from '@/components/movies/movie-info';
+import { Movie } from '@/components/movies/movie';
+import { PaginationControlProps, PaginationControl } from '@/components/pagination/control';
+import { FilterData } from '../filter/movie/filter';
 
 export type PageProps = {
   searchParams: {
@@ -15,25 +17,6 @@ export type MoviesProps = {
   },
   page: number,
   perPage: number,
-};
-
-async function getMovies(filter: string, filterData: FilterData | undefined = undefined) {
-  const url: string = (process.env.RADARR_URL ?? 'http://localhost:7878/') + 'api/v3/movie';
-  const headers: HeadersInit = {
-    'X-Api-Key': process.env.RADARR_API_KEY ?? '',
-  };
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: headers,
-    cache: 'no-store',  // results are too large to store in cache
-  });
-
-  if (!res.ok) {
-    return [];
-  }
-
-  const body = await res.json();
-  return filterMovies(body, filter, filterData);
 };
 
 export async function Movies(props: MoviesProps) {
@@ -64,7 +47,7 @@ export async function Movies(props: MoviesProps) {
     <>
       <ul className="flex flex-wrap justify-center lg:gap-6">
         {paginatedMovies.map(mov => (
-          <li className="inline-flex w-1/4 md:w-1/6 xl:w-1/12 mx-2.5 lg:mx-0 my-2.5" key={`${mov.cleanTitle}`}>
+          <li className="inline-flex w-1/4 md:w-1/6 xl:w-1/12 mx-2.5 lg:mx-0 my-2.5" key={`${mov.cleanTitle}-${mov.year}`}>
             <Movie {...mov} />
           </li>
         ))}

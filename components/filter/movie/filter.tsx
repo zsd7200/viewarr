@@ -1,4 +1,4 @@
-import { MovieData } from '@/components/movies/movie';
+import { MovieData } from '@/components/movies/movie-info';
 
 export type FilterData = {
   value: Array<string> | string,
@@ -6,7 +6,7 @@ export type FilterData = {
   available: boolean,
 };
 
-export function filterMovies(movies: Array<MovieData>, filter: string, filterData: FilterData | undefined = undefined) {
+export function filterMovies(movies: Array<MovieData>, filter: string | undefined = undefined, filterData: FilterData | undefined = undefined) {
   // add to filtered array if missing
   let getMissing = () => {
     let filtered: Array<MovieData> = [];
