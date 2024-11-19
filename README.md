@@ -9,7 +9,12 @@ RADARR_URL=
 RADARR_API_KEY=
 SONARR_URL=
 SONARR_API_KEY=
+PORT=
 ```
+
+Then, run install command:
+
+`npm i`
 
 Then, run the development server:
 
@@ -23,4 +28,4 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) (or whatever port you specified in the `.env` file) with your browser to see the result.
